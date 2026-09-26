@@ -68,12 +68,12 @@ variable "cluster_profile" {
 }
 variable "labels" {
   description = "A list of labels that will be applied to virtual instances"
-  type        = map
+  type        = map(any)
   default     = {}
 }
 variable "metadata" {
   description = "A map of user supplied metadata that will be applied to virtual instances"
-  type        = map
+  type        = map(any)
   default     = {}
 }
 variable "subnet" {

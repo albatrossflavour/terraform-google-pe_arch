@@ -2,7 +2,7 @@
 
 IaC definitions for three of the supported Puppet Enterprise architectures for Google Cloud Platform
 
-#### Table of Contents
+## Table of Contents
 
 1. [Description](#description)
 2. [Setup - The basics of getting started with google-pe_arch](#setup)
@@ -11,7 +11,6 @@ IaC definitions for three of the supported Puppet Enterprise architectures for G
     * [Beginning with google-pe_arch](#beginning-with-google-pe_arch)
 3. [Usage - Configuration options and additional functionality](#usage)
 4. [Limitations - OS compatibility, etc.](#limitations)
-5. [Development - Guide for contributing to the module](#development)
 
 ## Description
 
@@ -47,7 +46,17 @@ Types of things you'll be paying your cloud provider for
 * [GCP Cloud SDK Intalled](https://cloud.google.com/sdk/docs/quickstarts)
 * [GCP Application Default Credentials](https://cloud.google.com/sdk/gcloud/reference/auth/application-default/)
 * [Git Installed](https://git-scm.com/downloads)
-* [Terraform (>= 0.12.20) Installed](https://www.terraform.io/downloads.html)
+* [OpenTofu (>= 1.5)](https://opentofu.org/docs/intro/install/) or [Terraform (>= 1.5)](https://developer.hashicorp.com/terraform/install) Installed
+
+### Provider versions
+
+The module pins exact provider versions in `main.tf`:
+
+* `hashicorp/google` 8.4.0
+* `hashicorp/random` 3.9.1
+* `chriskuchin/hiera5` 0.5.4
+
+State written by the older 3.x google provider should be refreshed with a plan before applying anything else. See `CHANGELOG.md` for the behaviour that changed in the upgrade.
 
 ### Beginning with google-pe_arch
 

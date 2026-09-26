@@ -37,27 +37,27 @@ variable "instance_image" {
 }
 variable "labels" {
   description = "A list of labels that will be applied to virtual instances"
-  type        = map
+  type        = map(any)
   default     = {}
 }
 variable "metadata" {
   description = "A map of user supplied metadata that will be applied to virtual instances"
-  type        = map
+  type        = map(any)
   default     = {}
 }
 variable "project" {
   description = "Name of GCP project that will be used for housing require infrastructure"
   type        = string
 }
-variable network    {
+variable "network" {
   description = "VPC network provisioned by the networking submodule"
   type        = string
 }
-variable subnetwork {
+variable "subnetwork" {
   description = "Regional subnetwork assigned to VPC network provisioned by the networking submodule"
   type        = string
 }
-variable subnetwork_project {
+variable "subnetwork_project" {
   description = "Regional subnetwork project assigned to VPC network provisioned by the networking submodule"
   type        = string
 }

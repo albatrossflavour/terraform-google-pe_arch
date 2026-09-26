@@ -1,10 +1,10 @@
 # Zones list derived from where instances were previously deployed
 locals {
   instance_zones = toset(nonsensitive(var.instances[*].zone))
-  lb_count = var.has_lb ? 1 : 0
-  lb_scheme = var.lb_ip_mode == "public" ? "EXTERNAL" : "INTERNAL"
-  lb_network = var.lb_ip_mode == "public" ? null : var.network
-  lb_subnetwork = var.lb_ip_mode == "public" ? null : var.subnetwork
+  lb_count       = var.has_lb ? 1 : 0
+  lb_scheme      = var.lb_ip_mode == "public" ? "EXTERNAL" : "INTERNAL"
+  lb_network     = var.lb_ip_mode == "public" ? null : var.network
+  lb_subnetwork  = var.lb_ip_mode == "public" ? null : var.subnetwork
 }
 
 # Create an instance group per zone to attach that zone's compilers to
@@ -32,10 +32,18 @@ resource "google_compute_region_backend_service" "pe_compiler_lb" {
   health_checks         = [google_compute_region_health_check.pe_compiler[0].self_link]
   region                = var.region
 
+  # Provider 6.0 changed the defaults to 300 seconds and UTILIZATION. Pin the
+  # values the module had under 3.x, since passthrough load balancers only
+  # accept CONNECTION balancing
+  connection_draining_timeout_sec = 0
+
   dynamic "backend" {
     for_each = local.instance_zones
 
-    content { group = google_compute_instance_group.backend[backend.value].self_link }
+    content {
+      group          = google_compute_instance_group.backend[backend.value].self_link
+      balancing_mode = "CONNECTION"
+    }
   }
 }
 
